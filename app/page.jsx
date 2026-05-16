@@ -2,147 +2,97 @@
 
 import { useState } from "react";
 
-function WhatsAppIcon() {
-  return (
-    <svg viewBox="0 0 32 32" className="w-7 h-7 fill-white">
-      <path d="M16 3C8.82 3 3 8.82 3 16c0 2.3.6 4.46 1.65 6.34L3 29l6.85-1.6A12.93 12.93 0 0 0 16 29c7.18 0 13-5.82 13-13S23.18 3 16 3Zm0 23.7c-2.02 0-3.9-.56-5.52-1.53l-.39-.23-4.06.95.98-3.96-.26-.41A10.65 10.65 0 0 1 5.3 16C5.3 10.1 10.1 5.3 16 5.3S26.7 10.1 26.7 16 21.9 26.7 16 26.7Zm5.86-7.98c-.32-.16-1.9-.94-2.2-1.05-.3-.11-.52-.16-.73.16-.21.32-.84 1.05-1.03 1.27-.19.21-.38.24-.7.08-.32-.16-1.35-.5-2.57-1.59-.95-.85-1.6-1.9-1.79-2.22-.19-.32-.02-.49.14-.65.15-.14.32-.38.49-.57.16-.19.21-.32.32-.54.11-.21.05-.4-.03-.57-.08-.16-.73-1.76-1-2.41-.26-.63-.53-.54-.73-.55h-.62c-.21 0-.57.08-.86.4-.3.32-1.13 1.1-1.13 2.68s1.16 3.12 1.32 3.33c.16.21 2.28 3.48 5.52 4.88.77.33 1.37.53 1.84.68.77.24 1.48.21 2.04.13.62-.09 1.9-.78 2.17-1.53.27-.75.27-1.4.19-1.53-.08-.13-.29-.21-.62-.37Z" />
-    </svg>
-  );
-}
-
-function TelegramIcon() {
-  return (
-    <svg viewBox="0 0 24 24" className="w-7 h-7 fill-white">
-      <path d="M21.94 4.16c.18-.84-.62-1.54-1.42-1.23L2.88 9.75c-.74.29-.73 1.35.02 1.62l4.5 1.62 1.73 5.48c.23.73 1.14.96 1.69.42l2.49-2.44 4.54 3.35c.67.49 1.62.13 1.78-.69l2.31-14.95ZM8.3 12.15l8.8-5.42c.16-.1.33.11.2.25l-7.26 7.55-.28 3.02-1.46-5.4Z" />
-    </svg>
-  );
-}
-
-function AiIcon() {
-  return (
-    <svg viewBox="0 0 64 64" className="w-8 h-8">
-      <defs>
-        <linearGradient id="aiGradient" x1="0" x2="1">
-          <stop offset="0%" stopColor="#60a5fa" />
-          <stop offset="50%" stopColor="#22d3ee" />
-          <stop offset="100%" stopColor="#ffffff" />
-        </linearGradient>
-      </defs>
-      <rect x="12" y="16" width="40" height="34" rx="14" fill="url(#aiGradient)" />
-      <circle cx="25" cy="33" r="4" fill="#0f172a" />
-      <circle cx="39" cy="33" r="4" fill="#0f172a" />
-      <path d="M25 42c4.5 3 9.5 3 14 0" stroke="#0f172a" strokeWidth="3" strokeLinecap="round" fill="none" />
-      <path d="M32 9v7" stroke="#67e8f9" strokeWidth="4" strokeLinecap="round" />
-      <circle cx="32" cy="7" r="4" fill="#60a5fa" />
-    </svg>
-  );
-}
-
-const products = [
-  { title: "Mətbəx mebeli", category: "Mətbəx", price: "Qiymət razılaşma ilə" },
-  { title: "Qonaq otağı mebeli", category: "Qonaq otağı", price: "Qiymət razılaşma ilə" },
-  { title: "Yataq otağı mebeli", category: "Yataq otağı", price: "Qiymət razılaşma ilə" },
-];
-
-const videos = [
-  { title: "Mətbəx layihəsi" },
-  { title: "Hazır mebel işi" },
-];
-
 export default function Page() {
-  const [chatOpen, setChatOpen] = useState(false);
-  const [amount, setAmount] = useState(2000);
+  const [aiOpen, setAiOpen] = useState(false);
+  const [amount, setAmount] = useState(2500);
   const [months, setMonths] = useState(12);
+  const [activeImage, setActiveImage] = useState(null);
 
   const monthly = Math.round(amount / months);
+
+  function isWorkTime() {
+    const hour = new Date().getHours();
+    return hour >= 9 && hour < 19;
+  }
+
+  const workMessage = isWorkTime()
+    ? "Müraciətiniz qəbul edilə bilər."
+    : "Hazırda qeyri-iş saatıdır. Müraciətiniz qeydə alınacaq, iş vaxtında cavab veriləcək.";
+
+  const products = [
+    "Mətbəx mebeli",
+    "Qonaq otağı",
+    "Yataq otağı",
+    "Aksesuarlar",
+    "İkinci əl mebel",
+    "Ofis mebeli",
+  ];
 
   return (
     <main className="min-h-screen bg-slate-950 text-white overflow-hidden">
 
-      <header className="fixed top-0 left-0 w-full z-50 bg-slate-950/80 backdrop-blur-xl border-b border-white/10">
+      {/* HEADER */}
+      <header className="fixed top-0 left-0 w-full z-50 bg-slate-950/90 backdrop-blur-xl border-b border-white/10">
         <div className="max-w-7xl mx-auto px-5 py-4 flex items-center justify-between">
           <h1 className="text-2xl font-black text-blue-400">SUPELLEX</h1>
 
-          <nav className="hidden md:flex gap-7 text-sm text-white/80">
-            <a href="#xidmetler" className="hover:text-blue-400">Xidmətlər</a>
-            <a href="#kataloq" className="hover:text-blue-400">Kataloq</a>
-            <a href="#videolar" className="hover:text-blue-400">Videolar</a>
-            <a href="#kredit" className="hover:text-blue-400">Kredit</a>
-            <a href="#elaqe" className="hover:text-blue-400">Əlaqə</a>
+          <nav className="hidden md:flex gap-6 text-sm text-white/80">
+            <a href="#kataloq">Kataloq</a>
+            <a href="#aksesuar">Aksesuar</a>
+            <a href="#kredit">Kredit</a>
+            <a href="#rey">Rəylər</a>
+            <a href="#vakansiya">Vakansiya</a>
+            <a href="#elaqe">Əlaqə</a>
           </nav>
         </div>
       </header>
 
-      <section className="relative min-h-screen flex items-center justify-center px-5 pt-24 bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900">
-        <div className="absolute top-20 left-10 w-72 h-72 bg-blue-500/20 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-20 right-10 w-96 h-96 bg-cyan-400/20 rounded-full blur-3xl"></div>
-
-        <div className="relative z-10 max-w-4xl mx-auto text-center">
-          <p className="mb-5 inline-block px-5 py-2 rounded-full bg-white/10 border border-white/10 text-blue-200 text-sm">
+      {/* HERO */}
+      <section className="min-h-screen flex items-center justify-center px-5 pt-24 bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900">
+        <div className="max-w-5xl text-center">
+          <p className="inline-block px-5 py-2 rounded-full bg-white/10 text-blue-200 mb-5">
             Premium mebel və ağıllı satış sistemi
           </p>
 
-          <h2 className="text-5xl md:text-7xl font-black leading-tight bg-gradient-to-r from-blue-400 via-cyan-300 to-white bg-clip-text text-transparent">
+          <h2 className="text-5xl md:text-7xl font-black bg-gradient-to-r from-blue-400 via-cyan-300 to-white bg-clip-text text-transparent">
             SUPELLEX BAKU
           </h2>
 
-          <p className="mt-6 text-lg md:text-2xl text-white/75 leading-relaxed">
-            Mətbəx mebeli, interyer dizayn, fərdi layihələr, kredit imkanı və AI satış köməkçisi.
+          <p className="mt-6 text-xl text-white/70">
+            Mətbəx mebeli, interyer dizayn, kredit, aksesuarlar, ikinci əl mebel və AI satış köməkçisi.
           </p>
 
           <div className="mt-10 flex flex-wrap justify-center gap-4">
-            <a href="https://wa.me/994554131658" target="_blank" className="px-8 py-4 rounded-2xl bg-green-500 hover:bg-green-600 text-white font-bold shadow-2xl transition inline-flex items-center gap-3">
-              <WhatsAppIcon /> WhatsApp
+            <a href="https://wa.me/994554131658" target="_blank" className="px-8 py-4 rounded-2xl bg-green-500 font-bold">
+              WhatsApp
             </a>
-
-            <a href="https://t.me/supellex_baku_bot" target="_blank" className="px-8 py-4 rounded-2xl bg-sky-500 hover:bg-sky-600 text-white font-bold shadow-2xl transition inline-flex items-center gap-3">
-              <TelegramIcon /> Telegram Bot
+            <a href="https://t.me/supellex_baku_bot" target="_blank" className="px-8 py-4 rounded-2xl bg-sky-500 font-bold">
+              Telegram
             </a>
           </div>
         </div>
       </section>
 
-      <section id="xidmetler" className="max-w-7xl mx-auto px-5 py-24">
-        <div className="text-center mb-14">
-          <h2 className="text-4xl md:text-5xl font-black">Xidmətlərimiz</h2>
-          <p className="mt-4 text-white/60 text-lg">Ev və ofis üçün müasir mebel həlləri.</p>
-        </div>
-
-        <div className="grid md:grid-cols-3 gap-6">
-          {[
-            ["Mətbəx mebeli", "Ölçüyə uyğun, praktik və premium dizayn."],
-            ["İnteryer dizayn", "Rəng, material və yerləşim üzrə peşəkar yanaşma."],
-            ["Kredit imkanı", "Müştəri üçün rahat aylıq ödəniş hesablaması."],
-          ].map(([title, text]) => (
-            <div key={title} className="p-8 rounded-3xl bg-white/10 border border-white/10 shadow-2xl hover:-translate-y-2 transition">
-              <h3 className="text-2xl font-black text-blue-300">{title}</h3>
-              <p className="mt-4 text-white/65 leading-relaxed">{text}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
+      {/* CATALOG */}
       <section id="kataloq" className="px-5 py-24 bg-white text-slate-900">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-14">
-            <h2 className="text-4xl md:text-5xl font-black">Məhsul kataloqu</h2>
-            <p className="mt-4 text-slate-600 text-lg">Sonra şəkilləri bu bölməyə əlavə edəcəyik.</p>
-          </div>
+          <h2 className="text-4xl font-black text-center">Məhsul kataloqu</h2>
 
-          <div className="grid md:grid-cols-3 gap-6">
-            {products.map((item) => (
-              <div key={item.title} className="rounded-3xl overflow-hidden bg-slate-100 shadow-xl">
-                <div className="h-64 bg-slate-300 flex items-center justify-center text-slate-500">
-                  Şəkil yeri
-                </div>
+          <div className="grid md:grid-cols-3 gap-6 mt-12">
+            {products.map((item, i) => (
+              <div key={item} className="rounded-3xl bg-slate-100 overflow-hidden shadow-xl">
+                <button
+                  onClick={() => setActiveImage(item)}
+                  className="h-64 w-full bg-slate-300 flex items-center justify-center text-slate-600"
+                >
+                  Full screen şəkil yeri
+                </button>
 
                 <div className="p-6">
-                  <p className="text-sm text-blue-600 font-bold">{item.category}</p>
-                  <h3 className="text-2xl font-black mt-2">{item.title}</h3>
-                  <p className="mt-3 text-slate-600">{item.price}</p>
-
-                  <a href="https://wa.me/994554131658" target="_blank" className="inline-flex items-center gap-2 mt-5 px-5 py-3 rounded-xl bg-green-500 text-white font-bold">
-                    <WhatsAppIcon /> Sifariş et
+                  <h3 className="text-2xl font-black">{item}</h3>
+                  <p className="text-slate-600 mt-2">Qiymət razılaşma ilə</p>
+                  <a href="https://wa.me/994554131658" target="_blank" className="inline-block mt-5 bg-green-500 text-white px-5 py-3 rounded-xl font-bold">
+                    Sifariş et
                   </a>
                 </div>
               </div>
@@ -151,103 +101,188 @@ export default function Page() {
         </div>
       </section>
 
-      <section id="videolar" className="max-w-7xl mx-auto px-5 py-24">
-        <div className="text-center mb-14">
-          <h2 className="text-4xl md:text-5xl font-black">Video işlərimiz</h2>
-          <p className="mt-4 text-white/60 text-lg">Sonra videoları bu sistemə əlavə edəcəyik.</p>
-        </div>
+      {/* ACCESSORIES */}
+      <section id="aksesuar" className="max-w-7xl mx-auto px-5 py-24">
+        <h2 className="text-4xl font-black text-center">Aksesuarlar</h2>
 
-        <div className="grid md:grid-cols-2 gap-6">
-          {videos.map((item) => (
-            <div key={item.title} className="rounded-3xl bg-white/10 border border-white/10 p-5 shadow-2xl">
-              <div className="h-72 rounded-2xl bg-slate-800 flex items-center justify-center text-white/50">
-                Video yeri
-              </div>
-              <h3 className="mt-5 text-2xl font-black text-blue-300">{item.title}</h3>
+        <div className="grid md:grid-cols-4 gap-5 mt-10">
+          {["Tutacaqlar", "Mexanizmlər", "MDF", "Rəng seçimi"].map((x) => (
+            <div key={x} className="p-6 rounded-3xl bg-white/10 border border-white/10 text-center">
+              <h3 className="text-xl font-black text-blue-300">{x}</h3>
             </div>
           ))}
         </div>
       </section>
 
+      {/* VIDEOS */}
+      <section className="px-5 py-24 bg-slate-900">
+        <h2 className="text-4xl font-black text-center">Video işlərimiz</h2>
+
+        <div className="grid md:grid-cols-2 gap-6 mt-10 max-w-7xl mx-auto">
+          {[1, 2].map((v) => (
+            <div key={v} className="rounded-3xl bg-white/10 p-5">
+              <div className="h-72 rounded-2xl bg-slate-800 flex items-center justify-center text-white/50">
+                Full screen video yeri
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* CREDIT */}
       <section id="kredit" className="px-5 py-24 bg-white text-slate-900">
         <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-10">
-            <h2 className="text-4xl md:text-5xl font-black">Kredit kalkulyatoru</h2>
-            <p className="mt-4 text-slate-600 text-lg">Sadə ilkin hesablama üçündür.</p>
-          </div>
+          <h2 className="text-4xl font-black text-center">Kredit kalkulyatoru</h2>
 
-          <div className="rounded-3xl bg-slate-100 p-6 md:p-10 shadow-xl">
+          <div className="mt-10 rounded-3xl bg-slate-100 p-8">
             <label className="font-bold">Mebel qiyməti: {amount} AZN</label>
-            <input type="range" min="500" max="10000" step="100" value={amount} onChange={(e) => setAmount(Number(e.target.value))} className="w-full mt-3" />
+            <input className="w-full mt-3" type="range" min="500" max="10000" step="100" value={amount} onChange={(e) => setAmount(Number(e.target.value))} />
 
-            <label className="font-bold block mt-8">Müddət: {months} ay</label>
-            <input type="range" min="3" max="24" step="1" value={months} onChange={(e) => setMonths(Number(e.target.value))} className="w-full mt-3" />
+            <label className="font-bold block mt-6">Müddət: {months} ay</label>
+            <input className="w-full mt-3" type="range" min="3" max="24" value={months} onChange={(e) => setMonths(Number(e.target.value))} />
 
-            <div className="mt-8 rounded-2xl bg-blue-600 text-white p-6 text-center">
-              <p className="text-lg">Təxmini aylıq ödəniş</p>
-              <h3 className="text-4xl font-black mt-2">{monthly} AZN</h3>
+            <div className="mt-8 bg-blue-600 text-white p-6 rounded-2xl text-center">
+              <p>Aylıq təxmini ödəniş</p>
+              <h3 className="text-4xl font-black">{monthly} AZN</h3>
             </div>
-
-            <a href="https://wa.me/994554131658" target="_blank" className="flex items-center justify-center gap-2 mt-6 px-8 py-4 rounded-2xl bg-green-500 text-white font-bold">
-              <WhatsAppIcon /> Kredit üçün yaz
-            </a>
           </div>
         </div>
       </section>
 
-      <section id="elaqe" className="max-w-7xl mx-auto px-5 py-24 text-center">
-        <h2 className="text-4xl md:text-5xl font-black">Əlaqə</h2>
-        <p className="mt-4 text-white/60 text-lg">Sifariş və konsultasiya üçün bizə yazın.</p>
+      {/* FORMS */}
+      <section className="max-w-7xl mx-auto px-5 py-24 grid md:grid-cols-2 gap-6">
 
-        <div className="mt-8 flex flex-wrap justify-center gap-4">
-          <a href="https://wa.me/994554131658" target="_blank" className="px-8 py-4 rounded-2xl bg-green-500 text-white font-bold inline-flex items-center gap-3">
-            <WhatsAppIcon /> WhatsApp
-          </a>
-          <a href="https://t.me/supellex_baku_bot" target="_blank" className="px-8 py-4 rounded-2xl bg-sky-500 text-white font-bold inline-flex items-center gap-3">
-            <TelegramIcon /> Telegram
-          </a>
+        {[
+          ["Geri bildiriş / Şikayət", "/feedback", "Narazılıq, təklif və problem yazın"],
+          ["Vakansiya", "/vacancy", "Usta kimi işləmək istəyənlər üçün"],
+          ["Reklam / Tərəfdaşlıq", "/partnership", "Əməkdaşlıq müraciəti göndərin"],
+          ["İkinci əl mebel al/sat", "/secondhand", "Almaq və ya satmaq istəyənlər üçün"],
+        ].map(([title, endpoint, desc]) => (
+          <form
+            key={title}
+            onSubmit={(e) => {
+              e.preventDefault();
+              alert(workMessage);
+            }}
+            className="rounded-3xl bg-white/10 border border-white/10 p-6"
+          >
+            <h3 className="text-2xl font-black text-blue-300">{title}</h3>
+            <p className="text-white/60 mt-2">{desc}</p>
+
+            <input className="w-full mt-5 p-3 rounded-xl text-slate-900" placeholder="Adınız" />
+            <input className="w-full mt-3 p-3 rounded-xl text-slate-900" placeholder="Telefon nömrəsi" />
+            <textarea className="w-full mt-3 p-3 rounded-xl text-slate-900 h-28" placeholder="Mesajınız"></textarea>
+
+            <button className="mt-4 w-full bg-blue-600 py-3 rounded-xl font-bold">
+              Göndər
+            </button>
+
+            <p className="text-xs text-white/50 mt-3">{workMessage}</p>
+          </form>
+        ))}
+      </section>
+
+      {/* REVIEWS */}
+      <section id="rey" className="px-5 py-24 bg-white text-slate-900">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-4xl font-black text-center">Rəy yazın</h2>
+
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              alert("Rəyiniz qeydə alındı.");
+            }}
+            className="mt-10 rounded-3xl bg-slate-100 p-8"
+          >
+            <input className="w-full p-3 rounded-xl" placeholder="Adınız" />
+            <select className="w-full p-3 rounded-xl mt-3">
+              <option>5 ulduz</option>
+              <option>4 ulduz</option>
+              <option>3 ulduz</option>
+              <option>2 ulduz</option>
+              <option>1 ulduz</option>
+            </select>
+            <textarea className="w-full p-3 rounded-xl mt-3 h-28" placeholder="Rəyiniz"></textarea>
+            <button className="mt-4 bg-blue-600 text-white px-8 py-3 rounded-xl font-bold">
+              Rəyi göndər
+            </button>
+          </form>
         </div>
       </section>
 
-      <div className="fixed right-5 bottom-5 z-50 flex flex-col gap-3">
-        <a href="https://wa.me/994554131658" target="_blank" className="w-14 h-14 rounded-full bg-green-500 flex items-center justify-center shadow-2xl hover:scale-110 transition">
-          <WhatsAppIcon />
-        </a>
-        <a href="https://t.me/supellex_baku_bot" target="_blank" className="w-14 h-14 rounded-full bg-sky-500 flex items-center justify-center shadow-2xl hover:scale-110 transition">
-          <TelegramIcon />
-        </a>
-      </div>
+      {/* CONTACT */}
+      <footer id="elaqe" className="px-5 py-16 bg-slate-950 border-t border-white/10">
+        <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-8">
+          <div>
+            <h3 className="text-2xl font-black text-blue-400">SUPELLEX BAKU</h3>
+            <p className="text-white/60 mt-3">Müştəri məmnuniyyəti ön plandadır.</p>
+          </div>
 
-      <div className="fixed left-5 bottom-5 z-50">
-        {chatOpen && (
-          <div className="mb-4 w-80 max-w-[90vw] rounded-3xl bg-white text-slate-900 shadow-2xl overflow-hidden border border-blue-200">
-            <div className="bg-gradient-to-r from-blue-700 to-cyan-500 text-white p-4 flex items-center justify-between">
-              <div>
-                <h3 className="font-black">Supellex AI</h3>
-                <p className="text-xs text-blue-100">Satış köməkçisi</p>
+          <div>
+            <h4 className="font-black">Əlaqə</h4>
+            <p className="text-white/60 mt-2">WhatsApp: 055 413 16 58</p>
+            <p className="text-white/60">Telegram: @supellex_baku_bot</p>
+            <p className="text-white/60">Email: supellexbaku@gmail.com</p>
+          </div>
+
+          <div>
+            <h4 className="font-black">İş saatı</h4>
+            <p className="text-white/60 mt-2">09:00 - 19:00</p>
+            <p className="text-white/60">Ünvan: Bakı, Azərbaycan</p>
+          </div>
+        </div>
+      </footer>
+
+      {/* FULL SCREEN MODAL */}
+      {activeImage && (
+        <div className="fixed inset-0 z-[999] bg-black/90 flex items-center justify-center p-5">
+          <button onClick={() => setActiveImage(null)} className="absolute top-5 right-5 text-white text-4xl">×</button>
+          <div className="max-w-4xl w-full h-[70vh] rounded-3xl bg-slate-800 flex items-center justify-center text-white/60 text-3xl">
+            {activeImage}
+          </div>
+        </div>
+      )}
+
+      {/* AI PAGE MODAL */}
+      {aiOpen && (
+        <div className="fixed inset-0 z-[998] bg-slate-950 text-white p-5 overflow-auto">
+          <button onClick={() => setAiOpen(false)} className="fixed top-5 right-5 text-4xl">×</button>
+
+          <div className="max-w-4xl mx-auto pt-20">
+            <h2 className="text-5xl font-black text-blue-400">Supellex AI</h2>
+            <p className="text-white/60 mt-3">Sayt daxilində AI satış köməkçisi.</p>
+
+            <div className="mt-8 bg-white text-slate-900 rounded-3xl p-6">
+              <div className="bg-slate-100 rounded-2xl p-4">
+                Salam 👋 Mebel, kredit, sifariş və interyer barədə sual verə bilərsiniz.
               </div>
-              <button onClick={() => setChatOpen(false)} className="text-white text-2xl">×</button>
-            </div>
 
-            <div className="p-4 space-y-3 text-sm">
-              <div className="bg-slate-100 rounded-2xl p-3">
-                Salam 👋 Mən Supellex Baku AI köməkçisiyəm. Mebel, kredit və sifariş barədə sual verə bilərsiniz.
-              </div>
+              <textarea className="w-full mt-5 border p-4 rounded-2xl h-32" placeholder="Mesajınızı yazın..."></textarea>
 
-              <input type="text" placeholder="Mesajınızı yazın..." className="w-full border border-slate-300 rounded-2xl px-4 py-3 outline-none focus:border-blue-500" />
-
-              <button className="w-full bg-blue-600 text-white rounded-2xl py-3 font-bold hover:bg-blue-700 transition">
-                Göndər
+              <button
+                onClick={() => alert(workMessage)}
+                className="mt-4 w-full bg-blue-600 text-white py-4 rounded-2xl font-bold"
+              >
+                AI-yə göndər
               </button>
             </div>
           </div>
-        )}
+        </div>
+      )}
 
-        <button onClick={() => setChatOpen(!chatOpen)} className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-600 via-cyan-500 to-white flex items-center justify-center shadow-2xl hover:scale-110 transition border border-white/30">
-          <AiIcon />
-        </button>
+      {/* FLOAT BUTTONS */}
+      <div className="fixed right-5 bottom-5 z-50 flex flex-col gap-3">
+        <a href="https://wa.me/994554131658" target="_blank" className="w-14 h-14 rounded-full bg-green-500 flex items-center justify-center text-2xl">☎</a>
+        <a href="https://t.me/supellex_baku_bot" target="_blank" className="w-14 h-14 rounded-full bg-sky-500 flex items-center justify-center text-2xl">✈</a>
       </div>
+
+      <button
+        onClick={() => setAiOpen(true)}
+        className="fixed left-5 bottom-5 z-50 w-16 h-16 rounded-full bg-gradient-to-br from-blue-600 to-cyan-400 text-3xl shadow-2xl"
+      >
+        🤖
+      </button>
 
     </main>
   );
-              }
+}
