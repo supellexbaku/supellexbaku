@@ -23,6 +23,7 @@ export default function Sehife() {
       <bölmə sinif adı="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 text-center px-6 bg-gradient-to-b from-blue-700 via-blue-500 to-white">
 
         <div className="absolute inset-0 opacity-10">
+          <div sinif adı="absolute top-1/2 left-1/2 w-[500px] h-[500px] bg-cyan-400/20 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
           <div className="absolute w-72 h-72 bg-white rounded-full blur-3xl top-10 left-10"></div>
           <div className="absolute w-72 h-72 bg-blue-300 rounded-full blur-3xl bottom-10 right-10"></div>
         </div>
