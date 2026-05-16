@@ -20,7 +20,7 @@ export default function Sehife() {
       </header>
 
       {/* HERO */}
-      <section className="relative min-h-screen flex items-center justify-center text-center px-6 bg-gradient-to-b from-blue-700 via-blue-500 to-white">
+      <bölmə sinif adı="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 text-center px-6 bg-gradient-to-b from-blue-700 via-blue-500 to-white">
 
         <div className="absolute inset-0 opacity-10">
           <div className="absolute w-72 h-72 bg-white rounded-full blur-3xl top-10 left-10"></div>
