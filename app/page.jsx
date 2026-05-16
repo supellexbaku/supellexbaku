@@ -29,8 +29,8 @@ export default function Sehife() {
         </div>
 
         <div className="relative z-10 max-w-4xl">
-
-          <h1 className="text-5xl md:text-7xl font-black text-white mb-8 leading-tight">
+         <h1 sinif adı="text-5xl md:text-7xl font-black bg-gradient-to-r from-blue-400 via-cyan-300 to-white bg-clip-text text-transparent leading-tight"
+          
             Premium Mebel və İnteryer Dizayn
           </h1>
 
