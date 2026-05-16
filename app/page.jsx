@@ -2,58 +2,9 @@
 
 import { useState } from "react";
 
-function WhatsAppIcon() {
-  return (
-    <svg viewBox="0 0 32 32" className="w-7 h-7 fill-white">
-      <path d="M16 3C8.8 3 3 8.8 3 16c0 7.2 5.8 13 13 13s13-5.8 13-13S23.2 3 16 3Z" />
-    </svg>
-  );
-}
-
-function TelegramIcon() {
-  return (
-    <svg viewBox="0 0 24 24" className="w-7 h-7 fill-white">
-      <path d="M21.8 4.2 2.9 9.7l4.6 1.6 1.8 5.5 2.5-2.4 4.6 3.4Z" />
-    </svg>
-  );
-}
-
-function AiPremiumIcon() {
-  return (
-    <svg viewBox="0 0 80 80" className="w-10 h-10">
-      <defs>
-        <linearGradient id="aiPremium" x1="0" x2="1">
-          <stop offset="0%" stopColor="#ffffff" />
-          <stop offset="50%" stopColor="#22d3ee" />
-          <stop offset="100%" stopColor="#3b82f6" />
-        </linearGradient>
-      </defs>
-
-      <circle cx="40" cy="40" r="34" fill="url(#aiPremium)" />
-      <circle cx="32" cy="36" r="4" fill="#020617" />
-      <circle cx="48" cy="36" r="4" fill="#020617" />
-      <path d="M32 50c5 4 11 4 16 0" stroke="#020617" strokeWidth="3" fill="none" strokeLinecap="round" />
-    </svg>
-  );
-}
-
 export default function Page() {
 
   const [aiOpen, setAiOpen] = useState(false);
-  const [amount, setAmount] = useState(2500);
-  const [months, setMonths] = useState(12);
-  const [activeImage, setActiveImage] = useState(null);
-
-  const monthly = Math.round(amount / months);
-
-  const products = [
-    "Mətbəx mebeli",
-    "Qonaq otağı",
-    "Yataq otağı",
-    "Aksesuarlar",
-    "Ofis mebeli",
-    "İkinci əl mebel"
-  ];
 
   return (
     <main className="min-h-screen bg-slate-950 text-white overflow-hidden">
@@ -89,7 +40,10 @@ export default function Page() {
               Rəylər
             </a>
 
-            <a href="/muracietler" className="hover:text-blue-400">
+            <a
+              href="/muracietler"
+              className="hover:text-cyan-400 text-cyan-300 font-bold"
+            >
               Müraciətlər
             </a>
 
@@ -120,24 +74,30 @@ export default function Page() {
             Mətbəx mebeli, interyer dizayn, kredit, aksesuarlar və AI satış köməkçisi.
           </p>
 
+          {/* BUTTONS */}
           <div className="mt-10 flex flex-wrap justify-center gap-4">
 
             <a
               href="https://wa.me/994554131658"
               target="_blank"
-              className="px-8 py-4 rounded-2xl bg-green-500 inline-flex items-center gap-3 font-bold"
+              className="px-8 py-4 rounded-2xl bg-green-500 font-bold shadow-2xl"
             >
-              <WhatsAppIcon />
               WhatsApp
             </a>
 
             <a
               href="https://t.me/supellex_baku_bot"
               target="_blank"
-              className="px-8 py-4 rounded-2xl bg-sky-500 inline-flex items-center gap-3 font-bold"
+              className="px-8 py-4 rounded-2xl bg-sky-500 font-bold shadow-2xl"
             >
-              <TelegramIcon />
               Telegram
+            </a>
+
+            <a
+              href="/muracietler"
+              className="px-8 py-4 rounded-2xl bg-purple-600 font-bold shadow-2xl"
+            >
+              Müraciətlər
             </a>
 
           </div>
@@ -147,7 +107,10 @@ export default function Page() {
       </section>
 
       {/* CATALOG */}
-      <section id="kataloq" className="px-5 py-24 bg-white text-slate-900">
+      <section
+        id="kataloq"
+        className="px-5 py-24 bg-white text-slate-900"
+      >
 
         <div className="max-w-7xl mx-auto">
 
@@ -157,7 +120,7 @@ export default function Page() {
               Məhsul kataloqu
             </h2>
 
-            <p className="mt-4 text-slate-600 text-lg">
+            <p className="mt-4 text-slate-600">
               Premium mebel layihələri
             </p>
 
@@ -165,19 +128,23 @@ export default function Page() {
 
           <div className="grid md:grid-cols-3 gap-6">
 
-            {products.map((item) => (
+            {[
+              "Mətbəx mebeli",
+              "Qonaq otağı",
+              "Yataq otağı",
+              "Aksesuarlar",
+              "Ofis mebeli",
+              "İkinci əl mebel",
+            ].map((item) => (
 
               <div
                 key={item}
                 className="rounded-3xl bg-slate-100 overflow-hidden shadow-xl"
               >
 
-                <button
-                  onClick={() => setActiveImage(item)}
-                  className="w-full h-64 bg-slate-300 flex items-center justify-center text-slate-500"
-                >
-                  Full screen şəkil
-                </button>
+                <div className="w-full h-64 bg-slate-300 flex items-center justify-center text-slate-500">
+                  Şəkil yeri
+                </div>
 
                 <div className="p-6">
 
@@ -192,9 +159,8 @@ export default function Page() {
                   <a
                     href="https://wa.me/994554131658"
                     target="_blank"
-                    className="inline-flex items-center gap-2 mt-5 px-5 py-3 rounded-xl bg-green-500 text-white font-bold"
+                    className="inline-block mt-5 px-5 py-3 rounded-xl bg-green-500 text-white font-bold"
                   >
-                    <WhatsAppIcon />
                     Sifariş et
                   </a>
 
@@ -211,7 +177,10 @@ export default function Page() {
       </section>
 
       {/* ACCESSORIES */}
-      <section id="aksesuar" className="max-w-7xl mx-auto px-5 py-24">
+      <section
+        id="aksesuar"
+        className="max-w-7xl mx-auto px-5 py-24"
+      >
 
         <div className="text-center">
 
@@ -227,7 +196,7 @@ export default function Page() {
             "Tutacaqlar",
             "Mexanizmlər",
             "MDF",
-            "Rəng seçimi"
+            "Rəng seçimi",
           ].map((x) => (
 
             <div
@@ -248,7 +217,10 @@ export default function Page() {
       </section>
 
       {/* VIDEOS */}
-      <section id="videolar" className="px-5 py-24 bg-slate-900">
+      <section
+        id="videolar"
+        className="px-5 py-24 bg-slate-900"
+      >
 
         <div className="max-w-7xl mx-auto">
 
@@ -270,7 +242,7 @@ export default function Page() {
               >
 
                 <div className="h-72 rounded-2xl bg-slate-800 flex items-center justify-center text-white/50">
-                  Full screen video
+                  Video yeri
                 </div>
 
               </div>
@@ -283,68 +255,11 @@ export default function Page() {
 
       </section>
 
-      {/* CREDIT */}
-      <section id="kredit" className="px-5 py-24 bg-white text-slate-900">
-
-        <div className="max-w-4xl mx-auto">
-
-          <div className="text-center mb-10">
-
-            <h2 className="text-4xl md:text-5xl font-black">
-              Kredit kalkulyatoru
-            </h2>
-
-          </div>
-
-          <div className="rounded-3xl bg-slate-100 p-8">
-
-            <label className="font-bold">
-              Mebel qiyməti: {amount} AZN
-            </label>
-
-            <input
-              className="w-full mt-3"
-              type="range"
-              min="500"
-              max="10000"
-              step="100"
-              value={amount}
-              onChange={(e) => setAmount(Number(e.target.value))}
-            />
-
-            <label className="font-bold block mt-6">
-              Müddət: {months} ay
-            </label>
-
-            <input
-              className="w-full mt-3"
-              type="range"
-              min="3"
-              max="24"
-              value={months}
-              onChange={(e) => setMonths(Number(e.target.value))}
-            />
-
-            <div className="mt-8 bg-blue-600 text-white p-6 rounded-2xl text-center">
-
-              <p>
-                Aylıq təxmini ödəniş
-              </p>
-
-              <h3 className="text-4xl font-black mt-2">
-                {monthly} AZN
-              </h3>
-
-            </div>
-
-          </div>
-
-        </div>
-
-      </section>
-
       {/* REVIEWS */}
-      <section id="rey" className="px-5 py-24 bg-slate-900">
+      <section
+        id="rey"
+        className="px-5 py-24 bg-white text-slate-900"
+      >
 
         <div className="max-w-4xl mx-auto text-center">
 
@@ -352,7 +267,7 @@ export default function Page() {
             Müştəri rəyləri
           </h2>
 
-          <div className="mt-10 rounded-3xl bg-white/10 border border-white/10 p-8">
+          <div className="mt-10 rounded-3xl bg-slate-100 p-8">
 
             <input
               className="w-full p-4 rounded-xl bg-white text-slate-900"
@@ -364,7 +279,7 @@ export default function Page() {
               placeholder="Rəyinizi yazın"
             ></textarea>
 
-            <button className="mt-5 px-8 py-4 rounded-2xl bg-blue-600 font-bold">
+            <button className="mt-5 px-8 py-4 rounded-2xl bg-blue-600 text-white font-bold">
               Rəy göndər
             </button>
 
@@ -375,7 +290,10 @@ export default function Page() {
       </section>
 
       {/* FOOTER */}
-      <footer id="elaqe" className="px-5 py-16 bg-slate-950 border-t border-white/10">
+      <footer
+        id="elaqe"
+        className="px-5 py-16 bg-slate-950 border-t border-white/10"
+      >
 
         <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-8">
 
@@ -431,25 +349,34 @@ export default function Page() {
 
       </footer>
 
-      {/* FULLSCREEN */}
-      {activeImage && (
+      {/* FLOAT BUTTONS */}
+      <div className="fixed right-5 bottom-5 z-50 flex flex-col gap-3">
 
-        <div className="fixed inset-0 z-[999] bg-black/90 flex items-center justify-center p-5">
+        <a
+          href="https://wa.me/994554131658"
+          target="_blank"
+          className="w-14 h-14 rounded-full bg-green-500 flex items-center justify-center shadow-2xl text-2xl"
+        >
+          ☎
+        </a>
 
-          <button
-            onClick={() => setActiveImage(null)}
-            className="absolute top-5 right-5 text-white text-4xl"
-          >
-            ×
-          </button>
+        <a
+          href="https://t.me/supellex_baku_bot"
+          target="_blank"
+          className="w-14 h-14 rounded-full bg-sky-500 flex items-center justify-center shadow-2xl text-2xl"
+        >
+          ✈
+        </a>
 
-          <div className="max-w-4xl w-full h-[70vh] rounded-3xl bg-slate-800 flex items-center justify-center text-white/60 text-3xl">
-            {activeImage}
-          </div>
+      </div>
 
-        </div>
-
-      )}
+      {/* AI BUTTON */}
+      <button
+        onClick={() => setAiOpen(true)}
+        className="fixed left-5 bottom-5 z-50 w-16 h-16 rounded-full bg-gradient-to-br from-blue-600 via-cyan-400 to-purple-500 flex items-center justify-center shadow-[0_0_35px_rgba(34,211,238,0.6)]"
+      >
+        <AiPremiumIcon />
+      </button>
 
       {/* AI PAGE */}
       {aiOpen && (
@@ -469,14 +396,10 @@ export default function Page() {
               Supellex AI
             </h2>
 
-            <p className="text-white/60 mt-3">
-              Sayt daxilində AI satış köməkçisi.
-            </p>
-
             <div className="mt-8 bg-white text-slate-900 rounded-3xl p-6">
 
               <div className="bg-slate-100 rounded-2xl p-4">
-                Salam 👋 Mebel, kredit, sifariş və interyer barədə sual verə bilərsiniz.
+                Salam 👋 Sizə necə kömək edə bilərəm?
               </div>
 
               <textarea
@@ -495,35 +418,6 @@ export default function Page() {
         </div>
 
       )}
-
-      {/* FLOAT */}
-      <div className="fixed right-5 bottom-5 z-50 flex flex-col gap-3">
-
-        <a
-          href="https://wa.me/994554131658"
-          target="_blank"
-          className="w-14 h-14 rounded-full bg-green-500 flex items-center justify-center shadow-2xl"
-        >
-          <WhatsAppIcon />
-        </a>
-
-        <a
-          href="https://t.me/supellex_baku_bot"
-          target="_blank"
-          className="w-14 h-14 rounded-full bg-sky-500 flex items-center justify-center shadow-2xl"
-        >
-          <TelegramIcon />
-        </a>
-
-      </div>
-
-      {/* AI BUTTON */}
-      <button
-        onClick={() => setAiOpen(true)}
-        className="fixed left-5 bottom-5 z-50 w-16 h-16 rounded-full bg-gradient-to-br from-blue-600 via-cyan-400 to-purple-500 flex items-center justify-center shadow-[0_0_35px_rgba(34,211,238,0.6)]"
-      >
-        <AiPremiumIcon />
-      </button>
 
     </main>
   );
