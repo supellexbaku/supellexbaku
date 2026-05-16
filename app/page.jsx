@@ -7,9 +7,37 @@ export default function HomePage() {
   const [qalereya, setQalereya] = useState([]);
 
   useEffect(() => {
-    const data = JSON.parse(localStorage.getItem("supellex_qalereya")) || [];
-    setQalereya(data);
-  }, []);
+    const qalereya = [
+  {
+    id: 1,
+    sekil:
+      "https://res.cloudinary.com/dvjkyyk9z/image/upload/v1747420000/20250516_181657_chat8b.jpg",
+    ad: "Modern Divan",
+  },
+];
+
+<section className="py-16">
+  <h2 className="text-4xl font-bold mb-10">Qalereya</h2>
+
+  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+    {qalereya.map((item) => (
+      <div
+        key={item.id}
+        className="bg-zinc-900 rounded-2xl overflow-hidden"
+      >
+        <img
+          src={item.sekil}
+          alt={item.ad}
+          className="w-full h-72 object-cover"
+        />
+
+        <div className="p-4">
+          <h3 className="text-xl font-semibold">{item.ad}</h3>
+        </div>
+      </div>
+    ))}
+  </div>
+</section>
 
   return (
     <main className="min-h-screen bg-neutral-950 text-white">
