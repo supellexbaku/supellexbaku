@@ -17,6 +17,8 @@
     "next": "^16.0.8",
     "react": "19.2.4",
     "react-dom": "19.2.4",
+    "sharp": "^0.34.5",
+    "socket.io-client": "^4.8.3",
     "unique-names-generator": "^4.7.1"
   },
   "devDependencies": {

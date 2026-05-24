@@ -2,6 +2,7 @@ require("dotenv").config();
 
 const express = require("express");
 const cors = require("cors");
+
 const sqlite3 = require("sqlite3").verbose();
 const multer = require("multer");
 const path = require("path");
@@ -44,10 +45,46 @@ db.run(`CREATE TABLE IF NOT EXISTS products (
   desc TEXT
 )`);
 
+db.run(`CREATE TABLE IF NOT EXISTS categories (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT,
+  key TEXT UNIQUE,
+  image TEXT
+)`);
+
+db.serialize(() => {
+  db.run(
+    "CREATE TABLE IF NOT EXISTS categories (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, key TEXT UNIQUE, image TEXT)"
+  );
+
+  db.run(
+    "INSERT OR IGNORE INTO categories (name, key, image) VALUES (?, ?, ?)",
+    ["Mətbəx", "metbex", "https://images.unsplash.com/photo-1600585154340-be6161a56a0c"]
+  );
+
+  db.run(
+    "INSERT OR IGNORE INTO categories (name, key, image) VALUES (?, ?, ?)",
+    ["Yataq otağı", "yataq", "https://images.unsplash.com/photo-1615874959474-d609969a20ed"]
+  );
+
+  db.run(
+    "INSERT OR IGNORE INTO categories (name, key, image) VALUES (?, ?, ?)",
+    ["Qonaq otağı", "qonaq", "https://images.unsplash.com/photo-1586023492125-27b2c045efd7"]
+  );
+});
+
 db.run(`CREATE TABLE IF NOT EXISTS messages (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   from_user TEXT,
   text TEXT
+)`);
+
+db.run(`CREATE TABLE IF NOT EXISTS users (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  fullname TEXT,
+  phone TEXT UNIQUE,
+  password TEXT,
+  created_at DATETIME DEFAULT (datetime('now', '+4 hours'))
 )`);
 
 db.run(`CREATE TABLE IF NOT EXISTS orders (
@@ -143,6 +180,122 @@ app.get("/messages", (req, res) => {
   db.all("SELECT * FROM messages", (err, rows) => {
     res.json(rows);
   });
+});
+
+// 👤 USER REGISTER
+app.post("/user/register", (req, res) => {
+  const { fullname, phone, password } = req.body;
+
+  if (!fullname || !phone || !password) {
+    return res.status(400).json({
+      ok: false,
+      error: "Ad, telefon və şifrə lazımdır"
+    });
+  }
+
+  db.run(
+    "INSERT INTO users (fullname, phone, password) VALUES (?,?,?)",
+    [fullname, phone, password],
+    function(err) {
+      if (err) {
+        return res.status(400).json({
+          ok: false,
+          error: "Bu telefon artıq qeydiyyatdan keçib"
+        });
+      }
+
+      res.json({
+        ok: true,
+        user: {
+          id: this.lastID,
+          fullname,
+          phone
+        }
+      });
+    }
+  );
+});
+
+// 👤 USER LOGIN
+app.post("/user/login", (req, res) => {
+  const { phone, password } = req.body;
+
+  db.get(
+    "SELECT id, fullname, phone, created_at FROM users WHERE phone=? AND password=?",
+    [phone, password],
+    (err, user) => {
+      if (!user) {
+        return res.status(401).json({
+          ok: false,
+          error: "Telefon və ya şifrə yanlışdır"
+        });
+      }
+
+      res.json({
+        ok: true,
+        user
+      });
+    }
+  );
+});
+
+// 👤 ADMIN USERS
+app.get("/admin/users", (req, res) => {
+  db.all(
+    "SELECT id, fullname, phone, created_at FROM users ORDER BY id DESC",
+    (err, rows) => {
+      res.json(rows || []);
+    }
+  );
+});
+
+// 🗂 GET CATEGORIES
+app.get("/categories", (req, res) => {
+  db.all(
+    "SELECT * FROM categories ORDER BY id DESC",
+    (err, rows) => {
+      res.json(rows || []);
+    }
+  );
+});
+
+// 🗂 ADD CATEGORY
+app.post("/admin/category", (req, res) => {
+  const { name, key, image } = req.body;
+
+  if (!name || !key) {
+    return res.status(400).json({ ok:false, error:"Ad və key lazımdır" });
+  }
+
+  db.run(
+    "INSERT INTO categories (name, key, image) VALUES (?, ?, ?)",
+    [name, key, image || ""],
+    function(err) {
+      if (err) {
+        return res.status(400).json({ ok:false, error:"Bu key artıq var" });
+      }
+
+      res.json({ ok:true, id:this.lastID });
+    }
+  );
+});
+
+// 🗂 UPDATE CATEGORY
+app.put("/admin/category/:id", (req, res) => {
+  const { name, key, image } = req.body;
+
+  db.run(
+    "UPDATE categories SET name=?, key=?, image=? WHERE id=?",
+    [name, key, image || "", req.params.id]
+  );
+
+  res.json({ ok:true });
+});
+
+// 🗂 DELETE CATEGORY
+app.delete("/admin/category/:id", (req, res) => {
+  db.run("DELETE FROM categories WHERE id=?", [req.params.id]);
+  res.json({ ok:true });
 });
 
 // 🧾 CREATE ORDER

@@ -44,6 +44,7 @@ export default function AdminPage() {
   const [replyText, setReplyText] = useState("");
   const [orders, setOrders] = useState([]);
   const [vacancies, setVacancies] = useState([]);
+  const [users, setUsers] = useState([]);
 
   const [stats, setStats] = useState({
     products: 0,
@@ -149,6 +150,15 @@ export default function AdminPage() {
     loadVacancies();
   }
 
+  function loadUsers() {
+    fetch(`${API}/admin/users`, {
+      headers: { Authorization: `Bearer ${localStorage.getItem("adminToken") || "supellex_admin_2026"}` },
+    })
+      .then((r) => r.json())
+      .then((d) => setUsers(Array.isArray(d) ? d : []))
+      .catch(() => setUsers([]));
+  }
+
   function loadProducts(cat = category) {
     fetch(`${API}/products/${cat}`)
       .then(res => res.json())
@@ -160,6 +170,7 @@ export default function AdminPage() {
     loadProducts(category);
     loadOrders();
     loadVacancies();
+    loadUsers();
   }, [category]);
 
   useEffect(() => {
@@ -536,6 +547,13 @@ textShadow: "0 0 12px rgba(212,175,55,0.35)", marginBottom: 20 }}>
             👥 Vakansiya ({vacancies.length})
           </button>
 
+          <button onClick={() => setTab("users")} style={{
+            ...(tab === "users" ? premiumButton : ghostButton),
+            textAlign:"left"
+          }}>
+            👤 İstifadəçilər ({users.length})
+          </button>
+
         </div>
       </div>
 
@@ -672,7 +690,8 @@ textShadow: "0 0 12px rgba(212,175,55,0.35)" }}>Supellex Admin Panel</h1>
           { key: "products", label: "📦 Məhsullar" },
             { key: "orders", label: "🧾 Sifarişlər (" + orders.length + ")" },
             { key: "chat", label: "💬 Müştəri Chat" },
-            { key: "vacancy", label: "👥 Vakansiya (" + vacancies.length + ")" }
+            { key: "vacancy", label: "👥 Vakansiya (" + vacancies.length + ")" },
+            { key: "users", label: "👤 İstifadəçilər (" + users.length + ")" }
         ].map(item => (
           <button
             key={item.key}
@@ -982,6 +1001,68 @@ textShadow: "0 0 12px rgba(212,175,55,0.35)" }}>{p.price} AZN</p>
         </div>
       )}
 
+      
+
+      {tab === "users" && (
+        <div style={{
+          marginTop:24,
+          display:"grid",
+          gap:16
+        }}>
+
+          <h2 style={{ color:"#D4AF37" }}>
+            İstifadəçilər
+          </h2>
+
+          {users.length === 0 ? (
+            <div style={{
+              background:"rgba(255,255,255,0.06)",
+              padding:20,
+              borderRadius:18
+            }}>
+              İstifadəçi yoxdur
+            </div>
+          ) : (
+            users.map((u) => (
+              <div
+                key={u.id}
+                style={{
+                  background:"rgba(255,255,255,0.06)",
+                  border:"1px solid rgba(255,255,255,0.10)",
+                  padding:18,
+                  borderRadius:18
+                }}
+              >
+                <div style={{
+                  fontSize:18,
+                  fontWeight:"bold",
+                  color:"#fff"
+                }}>
+                  👤 {u.fullname}
+                </div>
+
+                <div style={{
+                  marginTop:8,
+                  opacity:.8
+                }}>
+                  📞 {u.phone}
+                </div>
+
+                <div style={{
+                  marginTop:8,
+                  opacity:.6,
+                  fontSize:14
+                }}>
+                  📅 {u.created_at}
+                </div>
+              </div>
+            ))
+          )}
+
+        </div>
+      )}
+
+
       {tab === "vacancy" && (
         <div style={{
           background: "rgba(255,255,255,0.06)",
@@ -1024,4 +1105,4 @@ backdropFilter: "blur(10px)"
       </div>
     </div>
   );
-}
+} 

@@ -1,0 +1,37 @@
+{
+  "expo": {
+    "name": "Supellex",
+    "slug": "supellex",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "dark",
+
+    "icon": "./icon.png",
+
+    "splash": {
+      "image": "./splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#050505"
+    },
+
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+
+    "ios": {
+      "supportsTablet": true
+    },
+
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./adaptive-icon.png",
+        "backgroundColor": "#050505"
+      },
+      "package": "com.supellex.app"
+    },
+
+    "web": {
+      "favicon": "./favicon.png"
+    }
+  }
+}
